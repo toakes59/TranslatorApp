@@ -13,6 +13,7 @@ import { speak } from '@/services/speech';
 import { useSpeechToText } from '@/services/stt';
 import {
   TranslationModelNotDownloadedError,
+  TranslationUnavailableError,
   translationService,
   type LangCode,
 } from '@/services/translation';
@@ -51,6 +52,8 @@ export default function SpeakScreen() {
         setErrorMessage(
           `${err.message} Download it from the Settings tab to translate offline.`
         );
+      } else if (err instanceof TranslationUnavailableError) {
+        setErrorMessage(err.message);
       } else {
         setErrorMessage('Translation failed. Please try again.');
       }

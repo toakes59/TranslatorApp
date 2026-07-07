@@ -11,6 +11,7 @@ import { BottomTabInset, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import {
   TranslationModelNotDownloadedError,
+  TranslationUnavailableError,
   translationService,
   type LangCode,
 } from '@/services/translation';
@@ -45,6 +46,8 @@ export default function TranslateScreen() {
         setErrorMessage(
           `${err.message} Download it from the Settings tab to translate offline.`
         );
+      } else if (err instanceof TranslationUnavailableError) {
+        setErrorMessage(err.message);
       } else {
         setErrorMessage('Translation failed. Please try again.');
       }
